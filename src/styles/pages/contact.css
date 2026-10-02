@@ -1,0 +1,442 @@
+/* contact page - ported 1:1 from contact.html. Scoped with :where() so specificity
+   matches the original while rules never leak into other routes. */
+:where(.page-contact) {
+  /*nav (shared with landing) */
+  .site-nav {
+    position: fixed;
+    z-index: 60;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    padding: 0 clamp(20px,4vw,64px);
+    background: rgba(var(--bg-rgb),.72);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid var(--line);
+    pointer-events: none;
+  }
+  .site-nav>* {
+    pointer-events: auto;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  .nav-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .nav-toggle:active {
+    transform: scale(.96);
+  }
+  .site-nav>.theme-toggle--bar {
+    display: none;
+  }
+  .nav-links>a:not(.button) {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease;
+  }
+  .button::after {
+    content: '↗';
+    font-size: 15px;
+  }
+  .button:active {
+    transform: scale(.97);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  .nav-drop {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .nav-drop-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    transition: color .2s;
+  }
+  .nav-drop-caret {
+    width: 11px;
+    height: 11px;
+    transition: transform .22s var(--ease-out);
+  }
+  .nav-drop-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 176px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(var(--bg-rgb),.96);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 24px 60px rgba(0,0,0,.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s var(--ease-out),transform .2s var(--ease-out),visibility .2s;
+  }
+  .nav-drop-menu::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 14px;
+  }
+  .nav-drop-menu a {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 9px;
+    color: var(--cream);
+    font-size: 13px;
+    transition: background .18s,color .18s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-drop-trigger:hover,
+    .nav-drop:hover .nav-drop-trigger,
+    .nav-drop:focus-within .nav-drop-trigger {
+      color: var(--accent);
+    }
+    .nav-drop-menu a:hover {
+      background: rgba(var(--ink-rgb),.08);
+      color: var(--accent);
+    }
+    .nav-drop:hover .nav-drop-menu,
+    .nav-drop:focus-within .nav-drop-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-drop:hover .nav-drop-caret,
+    .nav-drop:focus-within .nav-drop-caret {
+      transform: rotate(180deg);
+    }
+  }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .theme-toggle:active {
+    transform: scale(.96);
+  }
+  .theme-toggle .i-moon {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-sun {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-moon {
+    display: block;
+  }
+  /* contact page */
+  .contact {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: clamp(140px,17vw,190px) 24px 40px;
+  }
+  .contact-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 24px;
+    color: var(--muted);
+    font: 500 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+  .contact-eyebrow::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .contact h1 {
+    margin: 0;
+    font-size: clamp(38px,5.8vw,80px);
+    font-weight: 500;
+    line-height: .95;
+    letter-spacing: -.052em;
+  }
+  .contact-lede {
+    max-width: 640px;
+    margin: 28px 0 0;
+    color: var(--muted);
+    font-size: clamp(18px,2vw,22px);
+    line-height: 1.55;
+  }
+  .contact-lede a {
+    color: var(--accent);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 16px;
+    margin-top: clamp(56px,7vw,88px);
+  }
+  .contact-card {
+    padding: clamp(28px,3.4vw,44px);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(145deg,rgba(var(--ink-rgb),.05),rgba(var(--ink-rgb),.015));
+  }
+  .contact-card--email {
+    grid-column: 1/-1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .contact-k {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--accent);
+    font: 500 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+  .contact-card--email .contact-k {
+    margin: 0;
+  }
+  .contact-email {
+    font-size: clamp(26px,4vw,44px);
+    font-weight: 500;
+    letter-spacing: -.03em;
+    color: var(--cream);
+    transition: color .2s;
+  }
+  .contact-email:hover {
+    color: var(--accent);
+  }
+  .contact-card h2 {
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+  }
+  .contact-card address {
+    margin: 0;
+    color: var(--muted);
+    font-style: normal;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .contact-card .maplink {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 20px;
+    color: var(--accent);
+    font: 500 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .contact-card .maplink::after {
+    content: '↗';
+  }
+  .site-footer {
+    padding: 54px 24px;
+    border-top: 1px solid var(--line);
+    margin-top: clamp(60px,8vw,110px);
+  }
+  .footer-in {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: var(--wrap);
+    margin: auto;
+  }
+  @media (max-width: 820px) {
+    .site-nav {
+      height: 62px;
+      padding-inline: 18px;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      right: 14px;
+      left: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 8px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease-out),transform .22s var(--ease-out),visibility .22s;
+    }
+    .site-nav.nav-open .nav-links {
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-links>a:not(.button) {
+      display: block;
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px;
+    }
+    .nav-links .theme-toggle {
+      display: none;
+    }
+    .site-nav>.theme-toggle--bar {
+      display: inline-flex;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+    .nav-links .button {
+      min-height: 38px;
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+    }
+    .theme-toggle svg {
+      width: 14px;
+      height: 14px;
+    }
+    .nav-drop {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .nav-drop-trigger {
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px 0;
+      pointer-events: none;
+    }
+    .nav-drop-caret {
+      display: none;
+    }
+    .nav-drop-menu {
+      position: static;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      min-width: 0;
+      gap: 10px;
+      margin-left: 6px;
+      padding: 0 0 0 14px;
+      border: 0;
+      border-left: 1px solid var(--line);
+      border-radius: 0;
+      background: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: none;
+    }
+    .nav-drop-menu::before {
+      display: none;
+    }
+    .nav-drop-menu a {
+      padding: 2px 0;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .site-nav .nav-drop:hover .nav-drop-menu,
+    .site-nav .nav-drop:focus-within .nav-drop-menu {
+      transform: none;
+    }
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    .contact-card--email {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .footer-in {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    .nav-drop-menu,
+    .nav-drop-caret,
+    .contact-email {
+      transition: none;
+    }
+  }
+}

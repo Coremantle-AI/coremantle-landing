@@ -1,0 +1,1386 @@
+/* enterprise page - ported 1:1 from enterprise.html. Scoped with :where() so specificity
+   matches the original while rules never leak into other routes. */
+@layer base {
+  :where(.page-enterprise) h1,
+  :where(.page-enterprise) h2,
+  :where(.page-enterprise) h3,
+  :where(.page-enterprise) p {
+    margin-top: 0;
+  }
+}
+
+:where(.page-enterprise) {
+  /* Boot poster: first paint happens here, before the runtime unhides the
+     page. Mirrors the .hero section inside the stage, which takes over. */
+  /* Light theme: match the inverted hero scene (#0e0d0b inverts to #f1f2f4) */
+  .site-nav {
+    position: fixed;
+    z-index: 60;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    padding: 0 clamp(20px,4vw,64px);
+    background: linear-gradient(180deg,rgba(var(--bg-rgb),.94),transparent);
+    pointer-events: none;
+  }
+  .site-nav>* {
+    pointer-events: auto;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  .nav-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .nav-toggle:active {
+    transform: scale(.96);
+  }
+  .site-nav>.theme-toggle--bar {
+    display: none;
+  }
+  .nav-links>a:not(.button) {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform .25s,background .25s,color .25s;
+  }
+  .button::after {
+    content: '↗';
+    font-size: 15px;
+  }
+  .button:hover {
+    transform: translateY(-2px);
+    background: var(--cream);
+    color: var(--bg);
+  }
+  .scroll-scrub-track {
+    position: relative;
+    height: 380svh;
+    background: var(--bg);
+  }
+  .scroll-scrub-stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .scroll-scrub-page [data-omelette-chrome] {
+    display: none !important;
+  }
+  .landing {
+    position: relative;
+    z-index: 3;
+    background: var(--bg);
+  }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: clamp(50px,9vw,130px);
+    align-items: start;
+  }
+  .story {
+    padding-top: 8px;
+  }
+  .story p {
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  .story strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .story .button {
+    margin-top: 16px;
+  }
+  .fold {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #0e0d0b;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  }
+  .fold::before {
+    content: 'Loading animation';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .fold iframe {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #0e0d0b;
+  }
+  .fold-tag {
+    position: absolute;
+    z-index: 2;
+    left: 18px;
+    top: 18px;
+    padding: 8px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--bg-rgb),.8);
+    backdrop-filter: blur(10px);
+    font: 500 9px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .solution-grid {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: clamp(50px,8vw,110px);
+    align-items: center;
+    margin-top: 76px;
+  }
+  .solution-copy h3 {
+    font-size: clamp(32px,4vw,58px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+  .solution-copy p {
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .button--primary:hover {
+    background: var(--cream);
+  }
+  .metric {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    margin-top: 70px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .metric>div {
+    padding: 28px;
+    border-right: 1px solid var(--line);
+  }
+  .metric>div:last-child {
+    border: 0;
+  }
+  .metric strong {
+    display: block;
+    margin-bottom: 36px;
+    font-size: clamp(44px,6vw,78px);
+    font-weight: 500;
+    letter-spacing: -.055em;
+  }
+  .metric span {
+    color: var(--muted);
+    font: 500 11px/1.45 "IBM Plex Mono",monospace;
+    text-transform: uppercase;
+  }
+  .quality-grid {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: clamp(50px,8vw,110px);
+    align-items: center;
+    margin-top: 72px;
+  }
+  .quality-list {
+    counter-reset: q;
+    border-top: 1px solid var(--line);
+  }
+  .quality-list div {
+    counter-increment: q;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 19px;
+  }
+  .quality-list div::before {
+    content: '0' counter(q);
+    color: var(--accent);
+    font: 500 10px "IBM Plex Mono",monospace;
+  }
+  .industries {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-top: 70px;
+  }
+  .industry {
+    min-height: 280px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(145deg,rgba(var(--ink-rgb),.05),rgba(var(--ink-rgb),.015));
+    display: flex;
+    flex-direction: column;
+  }
+  .industry span {
+    color: var(--accent);
+    font: 500 10px "IBM Plex Mono",monospace;
+  }
+  .industry h3 {
+    margin: auto 0 14px;
+    font-size: 27px;
+    font-weight: 500;
+  }
+  .industry p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 70px;
+  }
+  .choice {
+    padding: clamp(30px,4vw,52px);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    background: rgba(var(--ink-rgb),.035);
+  }
+  .choice:first-child {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .choice .eyebrow {
+    color: inherit;
+    opacity: .65;
+  }
+  .choice:first-child .eyebrow::before {
+    background: var(--accent-ink);
+  }
+  .choice h3 {
+    margin: 80px 0 18px;
+    font-size: clamp(34px,4vw,54px);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .choice p {
+    max-width: 470px;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .choice:first-child p {
+    color: rgba(var(--accent-ink-rgb),.68);
+  }
+  .choice:first-child .button {
+    background: var(--accent-ink);
+    color: var(--cream);
+  }
+  .sources {
+    margin: 28px 0 0;
+    color: rgba(var(--ink-rgb),.34);
+    font: 400 10px/1.6 "IBM Plex Mono",monospace;
+  }
+  .site-footer {
+    padding: 54px 24px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-in {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding: 140px 24px 90px;
+  }
+  .hero .lede {
+    max-width: 760px;
+  }
+  .hero .action-row {
+    margin-top: 44px;
+  }
+  @media (max-width: 820px) {
+    .site-nav {
+      height: 62px;
+      padding-inline: 18px;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .site-nav {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      right: 14px;
+      left: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 8px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease-out),transform .22s var(--ease-out),visibility .22s;
+    }
+    .site-nav.nav-open .nav-links {
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-links>a:not(.button) {
+      display: block;
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px;
+    }
+    .nav-links .theme-toggle {
+      display: none;
+    }
+    .site-nav>.theme-toggle--bar {
+      display: inline-flex;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+    .nav-links .button {
+      min-height: 38px;
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+    .scroll-scrub-track {
+      height: 280svh;
+    }
+    .hero {
+      min-height: 92svh;
+      padding: 120px 20px 70px;
+    }
+    .founder-grid,
+    .solution-grid,
+    .quality-grid {
+      grid-template-columns: 1fr;
+    }
+    .fold {
+      border-radius: 16px;
+    }
+    .metric {
+      grid-template-columns: 1fr;
+    }
+    .metric>div {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .metric strong {
+      margin-bottom: 18px;
+    }
+    .industries {
+      grid-template-columns: 1fr;
+    }
+    .industry {
+      min-height: 220px;
+    }
+    .choice-grid {
+      grid-template-columns: 1fr;
+    }
+    .choice h3 {
+      margin-top: 55px;
+    }
+    .footer-in {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+  .site-nav {
+    background: rgba(var(--bg-rgb),.72);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-mask-image: linear-gradient(to bottom,#000 72%,transparent);
+    mask-image: linear-gradient(to bottom,#000 72%,transparent);
+  }
+  /* this nav restyle lands after the mobile block, so re-drop the mask there —
+     the fade-to-transparent mask painted the open hamburger dropdown invisible */
+  @media (max-width: 820px) {
+    .site-nav {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+  .button {
+    transition: transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease;
+  }
+  .button:hover {
+    transform: none;
+  }
+  .button:active {
+    transform: scale(.97);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .scroll-cue::after {
+    display: none;
+  }
+  .scroll-progress {
+    width: 42px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+  }
+  [data-reveal] {
+    transition: opacity 600ms var(--ease-out),transform 600ms var(--ease-out);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    [data-reveal] {
+      transition-duration: 0ms !important;
+    }
+    .scroll-progress {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .site-nav {
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  @media (prefers-contrast: more) {
+    .site-nav {
+      background: var(--bg);
+    }
+    .button,
+    .fold {
+      border-color: rgba(var(--ink-rgb),.42);
+    }
+  }
+  /* Scene never mounted (slow device / script blocked): the hero above is
+     plain HTML, so just drop the empty scrub section. */
+  .scroll-scrub-track.scene-fallback {
+    display: none;
+  }
+  .fold {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .fold::before {
+    color: rgba(var(--ink-rgb),.3);
+  }
+  /* scenes fade in only once landing.js has parked them on their composed
+     first frame — never a hard swap or a flash of a stale playhead */
+  .fold iframe {
+    background: transparent;
+    opacity: 0;
+    transition: opacity .45s var(--ease-out);
+  }
+  .fold iframe.is-ready {
+    opacity: 1;
+  }
+  .fold-tag {
+    display: none;
+  }
+  /* Industry cards: lavender hover. Gradients can't interpolate, so the hover
+     tint lives on an overlay that fades by opacity instead of snapping */
+  .industry {
+    position: relative;
+    transition: border-color .3s var(--ease-out),transform .3s var(--ease-out);
+  }
+  .industry::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: 0 0 44px -14px rgba(139,147,232,.55);
+    opacity: 0;
+    transition: opacity .3s var(--ease-out);
+    pointer-events: none;
+  }
+  .industry::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(145deg,rgba(139,147,232,.14),rgba(139,147,232,.03));
+    opacity: 0;
+    transition: opacity .3s var(--ease-out);
+    pointer-events: none;
+  }
+  .industry>* {
+    position: relative;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .industry:hover {
+      border-color: rgba(139,147,232,.65);
+      transform: translateY(-4px);
+    }
+    .industry:hover::after {
+      opacity: 1;
+    }
+    .industry:hover::before {
+      opacity: 1;
+    }
+  }
+  /* Closing CTA: one centered path */
+  .cta-final {
+    text-align: center;
+  }
+  .cta-final .eyebrow {
+    justify-content: center;
+  }
+  .cta-final .display {
+    margin-inline: auto;
+  }
+  .cta-final .lede {
+    margin-inline: auto;
+  }
+  .cta-final .action-row {
+    justify-content: center;
+    margin-top: 40px;
+  }
+  /* Platform section: smaller title, benchmark-led copy, full-width benchmark */
+  #platform .display {
+    font-size: clamp(34px,4.4vw,64px);
+  }
+  #platform .lede {
+    max-width: 780px;
+  }
+  #platform .lede strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  .fold--wide {
+    width: min(96vw,1880px);
+    margin: 56px auto 0;
+    aspect-ratio: 1920/1080;
+  }
+  /* pinned fold: the stage sticks for the track's travel and landing.js maps
+     that travel onto the fold's timeline, so scroll sets the pace */
+  .fold-track {
+    position: relative;
+    height: 260svh;
+  }
+  .fold-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .fold-stage .fold--wide {
+    margin: 0 auto;
+    width: min(96vw,calc((100svh - 48px)*1.7778));
+  }
+  @media (max-width: 820px) {
+    .fold--wide {
+      margin-top: 30px;
+    }
+    .fold-track {
+      height: 220svh;
+    }
+    .fold-stage .fold--wide {
+      width: min(96vw,calc((100svh - 60px)*.48));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fold-track {
+      height: auto;
+    }
+    .fold-stage {
+      position: static;
+      height: auto;
+    }
+    .fold-stage .fold--wide {
+      margin: 56px auto 0;
+    }
+  }
+  /* Mobile: the fold scenes ship portrait layouts (900-wide stages); give their
+     boxes the matching portrait aspect so the iframe reports portrait and the
+     scene picks its mobile variant. */
+  @media (max-width: 820px) {
+    .fold[data-fold="Coremantle Data Gap.dc.html"] {
+      aspect-ratio: 600/1050 !important;
+    }
+    .fold[data-fold="Coremantle Scale.dc.html"] {
+      aspect-ratio: 600/1200 !important;
+    }
+    .fold[data-fold="Coremantle Complexity.dc.html"] {
+      aspect-ratio: 600/1250 !important;
+    }
+    .fold[data-fold="Coremantle GPU Burn.dc.html"] {
+      aspect-ratio: 600/1300 !important;
+    }
+    .fold[data-fold="Coremantle Regulatory Moat.dc.html"] {
+      aspect-ratio: 600/1350 !important;
+    }
+    .fold--wide[data-fold="Coremantle Benchmark Enterprise.dc.html"] {
+      aspect-ratio: 600/1250 !important;
+    }
+  }
+  /* ===== Quality scrub: the pyramid's prism completes the production stack ===== */
+  .q-scrub {
+    position: relative;
+    height: 340svh;
+    margin-top: 74px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+  .q-stage {
+    --qp: 0;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .q-stage [data-seg],
+  .q-stage .pyr-t,
+  .q-stage .pyr-gem {
+    --t: clamp(0,calc((var(--qp) - var(--s,0)) * var(--v,12.5)),1);
+  }
+  /* chapter 01 starts composed (no entrance term): the stage scrolls into the
+     viewport already showing ground + bottom tier, never a blank screen */
+  .qs1 {
+    --t: clamp(0,calc(var(--qp) * 25),1);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(36px,6vw,110px);
+    padding: 72px clamp(20px,5vw,80px) 0;
+    opacity: calc(1 - clamp(0,calc((var(--qp) - .56) * 12.5),1));
+  }
+  .qs1-fig {
+    position: relative;
+    margin: 0;
+    width: min(44vw,520px);
+    flex: none;
+  }
+  .qs1-fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 26px rgba(139,147,232,.16));
+  }
+  .q-apex {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    width: 2px;
+    height: 2px;
+  }
+  .pyr-ground {
+    fill: rgba(139,147,232,.10);
+  }
+  .pyr-t,
+  .pyr-gem {
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 30px));
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .pf-t {
+    fill: rgba(139,147,232,.30);
+    stroke: rgba(175,181,240,.85);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .pf-l {
+    fill: rgba(139,147,232,.08);
+    stroke: rgba(175,181,240,.4);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .pf-r {
+    fill: rgba(139,147,232,.16);
+    stroke: rgba(175,181,240,.5);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .pyr-gem {
+    opacity: calc(var(--t) * (1 - clamp(0,calc((var(--qp) - .56) * 50),1)));
+  }
+  .gem-glow {
+    fill: rgba(139,147,232,.22);
+  }
+  .gem-body {
+    fill: rgba(139,147,232,.5);
+    stroke: #c3c8f6;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+  .pyr-gem line {
+    stroke: rgba(var(--ink-rgb),.55);
+    stroke-width: 1;
+  }
+  .qs1-labels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 430px;
+  }
+  .qs1-labels li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    column-gap: 14px;
+    align-items: baseline;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 16px));
+  }
+  .qs1-labels b {
+    color: var(--accent);
+    font: 500 11px "IBM Plex Mono",monospace;
+  }
+  .qs1-labels h3 {
+    margin: 0;
+    font-size: clamp(16px,1.4vw,19px);
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .qs1-labels p {
+    grid-column: 2;
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  /* chapter 02 carries live links: keep the invisible layer out of pointer and
+     tab order until landing.js flags it live */
+  .qs2 {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    width: min(100%,1150px);
+    margin-inline: auto;
+    padding: 72px clamp(20px,4vw,64px) 0;
+    opacity: var(--t);
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .qs2-live .qs2 {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .qs2-row {
+    display: grid;
+    grid-template-columns: 1fr 30px 1.15fr 30px 1fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .qs2-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    background: rgba(var(--ink-rgb),.035);
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 18px));
+  }
+  .qs2-card--agent {
+    border-color: rgba(139,147,232,.4);
+    background: rgba(139,147,232,.07);
+  }
+  .qs2-card span {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--accent);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .qs2-card b {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .qs2-card p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .qs2-arrow {
+    align-self: center;
+    justify-self: center;
+    color: rgba(var(--ink-rgb),.5);
+    font-size: 17px;
+    opacity: var(--t);
+  }
+  .qs2-fail {
+    display: inline-flex;
+    margin: 10px 0 0;
+    padding: 6px 9px;
+    border: 1px solid rgba(217,173,85,.45);
+    border-radius: 8px;
+    color: var(--warm);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .05em;
+  }
+  .qs2-card p.qs2-fail {
+    color: var(--warm);
+    font-size: 10px;
+    opacity: var(--t);
+  }
+  .qs2-mid {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    min-height: 20px;
+  }
+  .qs2-drop {
+    color: var(--muted);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: var(--t);
+  }
+  .qs2-replaces {
+    position: absolute;
+    right: 4%;
+    top: -4px;
+    padding: 7px 11px;
+    border: 1px dashed rgba(139,147,232,.55);
+    border-radius: 999px;
+    color: var(--accent);
+    font: 500 9.5px "IBM Plex Mono",monospace;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: var(--t);
+  }
+  .qs2-platform {
+    position: relative;
+    border: 1px solid rgba(139,147,232,.4);
+    border-radius: 20px;
+    padding: 18px 22px 22px;
+    background: linear-gradient(180deg,rgba(139,147,232,.10),rgba(139,147,232,.02));
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 22px));
+    transition: border-color .3s var(--ease-out),box-shadow .3s var(--ease-out);
+  }
+  .is-landed .qs2-platform {
+    border-color: rgba(139,147,232,.75);
+    box-shadow: 0 0 70px -18px rgba(139,147,232,.55),inset 0 0 40px -22px rgba(139,147,232,.4);
+  }
+  .qs2-plat-head {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #c9cdf5;
+    font: 600 11.5px "IBM Plex Mono",monospace;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .qs2-slot {
+    position: relative;
+    width: 26px;
+    height: 30px;
+    flex: none;
+  }
+  .qs2-slot::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 1px dashed rgba(139,147,232,.55);
+    border-radius: 7px;
+    transition: opacity .3s;
+  }
+  .qs2-slot svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(.92);
+    transition: opacity .35s .1s var(--ease-out),transform .35s .1s cubic-bezier(.34,1.56,.64,1);
+  }
+  .qs2-slot svg polygon {
+    fill: rgba(139,147,232,.55);
+    stroke: #c3c8f6;
+    stroke-width: 3;
+    stroke-linejoin: round;
+  }
+  .qs2-slot svg line {
+    stroke: rgba(var(--ink-rgb),.6);
+    stroke-width: 2;
+  }
+  .is-landed .qs2-slot::before {
+    opacity: 0;
+  }
+  /* static shadow + composited opacity pulse (an animated blur radius repaints
+     per frame); three breaths then rest — the platform glow owns the arrival */
+  .is-landed .qs2-slot svg {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(139,147,232,.75));
+    animation: gemRest 3s ease-in-out .4s 3 backwards;
+  }
+  .qs2-chips {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .qs2-chip {
+    position: relative;
+    border: 1px solid rgba(139,147,232,calc(.12 + .55 * var(--t)));
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    background: rgba(var(--bg-rgb),.45);
+    color: rgba(var(--ink-rgb),calc(.4 + .6 * var(--t)));
+  }
+  /* the glow scrubs by opacity on a fixed-blur shadow — a blur radius driven
+     by --t repaints the chip every scroll frame */
+  .qs2-chip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 24px -10px rgba(139,147,232,.6);
+    opacity: var(--t);
+    pointer-events: none;
+  }
+  .qs2-chip:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    transform: translate(50%,-50%);
+    color: rgba(139,147,232,calc(.25 + .55 * var(--t)));
+    font-size: 13px;
+  }
+  .qs2-final {
+    margin: 16px 0 0;
+    text-align: center;
+    font-size: clamp(17px,1.9vw,23px);
+    font-weight: 500;
+    letter-spacing: -.015em;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 14px));
+  }
+  .qs2-final em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  .qs2 .action-row {
+    margin-top: 10px;
+    justify-content: center;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 14px));
+  }
+  .q-prism {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 6;
+    width: 58px;
+    opacity: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 20px rgba(139,147,232,.65));
+    will-change: transform;
+  }
+  .q-prism svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .q-prism polygon {
+    fill: rgba(139,147,232,.55);
+    stroke: #c3c8f6;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .q-prism line {
+    stroke: rgba(var(--ink-rgb),.6);
+    stroke-width: 1.4;
+  }
+  @media (max-width: 820px) {
+    .q-scrub {
+      height: 300svh;
+    }
+    .qs1 {
+      flex-direction: column;
+      gap: 22px;
+      padding: 80px 20px 24px;
+      justify-content: flex-start;
+    }
+    .qs1-fig {
+      width: min(62vw,300px);
+    }
+    .qs1-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 16px;
+      max-width: none;
+      width: 100%;
+    }
+    .qs1-labels li {
+      grid-template-columns: 24px 1fr;
+    }
+    .qs1-labels h3 {
+      font-size: 14px;
+    }
+    .qs1-labels p {
+      font-size: 11.5px;
+      margin-top: 4px;
+    }
+    .qs2 {
+      gap: 12px;
+      padding: 76px 16px 16px;
+      justify-content: flex-start;
+    }
+    .qs2-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .qs2-arrow {
+      transform: rotate(90deg);
+      font-size: 14px;
+    }
+    .qs2-card {
+      padding: 12px 14px;
+    }
+    .qs2-card span {
+      margin-bottom: 6px;
+    }
+    .qs2-card b {
+      font-size: 13.5px;
+    }
+    .qs2-card p {
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .qs2-chips {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .qs2-chip {
+      padding: 11px 8px;
+      font-size: 11.5px;
+    }
+    .qs2-chip:not(:last-child)::after {
+      display: none;
+    }
+    .qs2-replaces {
+      display: none;
+    }
+    .qs2-final {
+      font-size: 15px;
+    }
+    .q-prism {
+      width: 40px;
+    }
+  }
+  /* Short phones: the pinned quality stage is one 100svh screen with overflow
+     hidden — compress chapter 02 so the closing line and CTA never clip */
+  @media (max-width: 820px) and (max-height: 820px) {
+    .qs2 {
+      padding-top: 66px;
+      gap: 8px;
+    }
+    .qs2-row {
+      gap: 6px;
+    }
+    .qs2-card {
+      padding: 9px 12px;
+    }
+    .qs2-card p {
+      margin-top: 3px;
+      font-size: 10.5px;
+    }
+    .qs2-mid {
+      min-height: 14px;
+    }
+    .qs2-platform {
+      padding: 12px 14px 14px;
+    }
+    .qs2-chips {
+      margin-top: 8px;
+      gap: 6px;
+    }
+    .qs2-chip {
+      padding: 9px 6px;
+      font-size: 11px;
+    }
+    .qs2-final {
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .qs2 .action-row {
+      margin-top: 4px;
+    }
+    .qs2 .action-row .button {
+      min-height: 38px;
+      padding-inline: 14px;
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 820px) and (max-height: 720px) {
+    .qs2-card p:not(.qs2-fail) {
+      display: none;
+    }
+    .qs2-arrow {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .q-scrub {
+      height: auto;
+      width: auto;
+      margin-left: 0;
+    }
+    .q-stage {
+      --qp: 1;
+      position: static;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+    }
+    .qs1,
+    .qs2 {
+      position: static;
+      inset: auto;
+      opacity: 1 !important;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .q-stage [data-seg],
+    .q-stage .pyr-t {
+      --t: 1;
+    }
+    .pyr-gem {
+      opacity: 1 !important;
+    }
+    .q-prism {
+      display: none;
+    }
+    .qs2-slot svg {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .qs2-slot::before {
+      opacity: 0;
+    }
+    .fold iframe {
+      transition: none;
+    }
+    /* one static viewport of the pipeline, no dead pinned screens */
+    .scroll-scrub-track {
+      height: 100svh;
+    }
+  }
+  /* ===== Theme toggle + light theme ===== */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  .theme-toggle:active {
+    transform: scale(.96);
+  }
+  /* one-shot cross-ease while the toggle swaps the palette (class set by the
+     head theme script); large surfaces only, never the scene filters */
+  html.theme-easing & .site-nav,
+  html.theme-easing & .section,
+  html.theme-easing & .button,
+  html.theme-easing & .choice,
+  html.theme-easing & .industry,
+  html.theme-easing & .metric>div,
+  html.theme-easing & .fold,
+  html.theme-easing & .qs2-card,
+  html.theme-easing & .qs2-platform {
+    transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+  }
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  .theme-toggle .i-moon {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-sun {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-moon {
+    display: block;
+  }
+  @media (max-width: 820px) {
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+    }
+    .theme-toggle svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  /* Light mode: the scenes render on their own dark stage; invert+hue-rotate
+     flips lightness while keeping the lavender/amber hues, so every animation
+     follows the theme without a second color pass. Inverted #0e0d0b lands on
+     #f1f2f4, so surfaces that sit around a scene use that tone. */
+  html[data-theme=light] & .fold iframe {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  html[data-theme=light] & .fold {
+    background: #f1f2f4;
+    border-radius: 18px;
+  }
+  /* The hero scene draws through an SVG foreignObject, where an ancestor
+     filter is silently ignored — a backdrop-filter overlay between the scene
+     (below) and the poster/cue (z 10/20) inverts its paint instead. */
+  html[data-theme=light] & .scroll-scrub-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    -webkit-backdrop-filter: invert(1) hue-rotate(180deg);
+    backdrop-filter: invert(1) hue-rotate(180deg);
+  }
+  html[data-theme=light] & .scroll-scrub-track {
+    background: #f1f2f4;
+  }
+  /* Pale-lavender literals tuned for the dark stage get a deeper tone on paper */
+  html[data-theme=light] & .qs2-plat-head {
+    color: #3a42a4;
+  }
+  html[data-theme=light] & .pf-t {
+    stroke: rgba(79,88,196,.85);
+  }
+  html[data-theme=light] & .pf-l {
+    stroke: rgba(79,88,196,.4);
+  }
+  html[data-theme=light] & .pf-r {
+    stroke: rgba(79,88,196,.5);
+  }
+  html[data-theme=light] & .gem-body {
+    stroke: #4f58c4;
+  }
+  html[data-theme=light] & .qs2-slot svg polygon,
+  html[data-theme=light] & .q-prism polygon {
+    stroke: #4f58c4;
+  }
+  html[data-theme=light] & .fw-node circle {
+    stroke: rgba(79,88,196,.7);
+  }
+  html[data-theme=light] & .fw-node .fw-n {
+    fill: #4f58c4;
+  }
+  html[data-theme=light] & .fw-arc path {
+    stroke: rgba(79,88,196,.75);
+  }
+  html[data-theme=light] & .fw-arc polygon {
+    fill: rgba(79,88,196,.85);
+  }
+}
+
+html.theme-easing body:has(> :where(.page-enterprise)) {
+  transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+}

@@ -1,0 +1,13 @@
+/* Big Tech scene sizing. Scoped to the Big Tech page: its #problem rules would
+   otherwise reach the home page, which also has a #problem section. */
+:where(.page-bigtech) {
+  /* Native scenes handle their own theme; only portrait composition is page-specific. */
+  html[data-theme=light] .fold.bigtech-fold iframe{filter:none}
+  @media(min-width:601px) and (max-width:820px){
+   #problem .fold.bigtech-fold{aspect-ratio:3/2!important}
+  }
+  @media(max-width:600px){
+   #problem .fold.bigtech-fold{aspect-ratio:600/850!important}
+   #problem .fold[data-fold="Coremantle Trainable.dc.html"]{aspect-ratio:600/620!important}
+  }
+}

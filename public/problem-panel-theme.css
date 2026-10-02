@@ -1,0 +1,3 @@
+/* Shared backgrounds for numbered panels and native scenes. */
+:root{--problem-panel-bg:#0e0d0b}
+:root[data-theme=light]{--problem-panel-bg:#f2f2f0}

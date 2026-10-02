@@ -1,0 +1,43 @@
+/* Document-level defaults shared by every page. Deliberately minimal: the
+   site was designed on top of browser default typography (paragraph and
+   heading margins), so Tailwind's Preflight reset is not used. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: "Space Grotesk", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Shared by every quality scrub: the gem in the platform slot breathes three
+   times after the prism lands. */
+@keyframes gemRest {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .55; }
+}

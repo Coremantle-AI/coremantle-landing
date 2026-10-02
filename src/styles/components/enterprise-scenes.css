@@ -1,0 +1,15 @@
+/* Enterprise-only sizing; the shared deck continues to own scrolling. */
+@media(max-width:820px){
+  .fold.enterprise-fold{aspect-ratio:600/1500!important}
+  .fold.enterprise-fold[data-fold="Enterprise Conversation.html"]{aspect-ratio:600/1450!important}
+  .fold.enterprise-fold[data-fold="Enterprise Automation.html"]{aspect-ratio:600/1300!important}
+}
+/* These scenes supply their own theme tokens rather than inverting pixels. */
+html[data-theme=light] .fold.enterprise-fold iframe{filter:none}
+@media(min-width:601px) and (max-width:820px){
+ #problem .problem-layout .fold.enterprise-fold{aspect-ratio:1047/650!important}
+}
+@media(max-width:600px){
+ .fold.enterprise-fold[data-fold="Enterprise Data Readiness.html"]{aspect-ratio:600/1780!important}
+ .fold.enterprise-fold[data-fold="Enterprise Conversation.html"]{aspect-ratio:600/1920!important}
+}

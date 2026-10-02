@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<!-- Keep executable JavaScript outside x-dc so its HTML normalizer cannot rewrite identifiers. -->
+<script>
+  (function syncParentTheme() {
+    const root = document.documentElement;
+    let parentRoot;
+    try { parentRoot = window.parent.document.documentElement; } catch (error) { return; }
+    const sync = () => {
+      if (parentRoot.getAttribute('data-theme') === 'light') root.setAttribute('data-parent-theme', 'light');
+      else root.removeAttribute('data-parent-theme');
+    };
+    sync();
+    new MutationObserver(sync).observe(parentRoot, { attributes: true, attributeFilter: ['data-theme'] });
+  }());
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --funnel-prism-fill: rgba(139,147,232,.55);
+    --funnel-prism-stroke: #c3c8f6;
+    --funnel-prism-line: rgba(246,244,239,.6);
+    --funnel-prism-glow: rgba(139,147,232,.65);
+    --funnel-prism-theme-filter: none;
+  }
+  html[data-parent-theme="light"] {
+    --funnel-prism-stroke: #4f58c4;
+    --funnel-prism-line: rgba(28,26,20,.6);
+    --funnel-prism-theme-filter: invert(1) hue-rotate(180deg);
+  }
+  html, body { margin: 0; padding: 0; height: 100%; background: #0e0d0b; }
+  a { color: #f6f4ef; } a:hover { color: #8b93e8; }
+</style>
+
+<script>window.OM_SCENES = '[{"name":"Raw Data","dur":3.5,"desc":"Messy audio, chat and PII artifacts drift toward the funnel"},{"name":"Funnel","dur":3,"desc":"The four cleaning stages assemble left to right"},{"name":"Noise","dur":3,"desc":"Stage one lights up and noisy particles are deflected"},{"name":"PII","dur":3,"desc":"Personal details are redacted at stage two"},{"name":"Cross-Talk","dur":3,"desc":"Overlapping speech is filtered at stage three"},{"name":"Code-Switching","dur":3.5,"desc":"Invalid code-switching is rejected at stage four"},{"name":"Model-Ready","dur":4,"desc":"A clean crystal of structured data forms at the outlet"},{"name":"Wide","dur":3,"desc":"Pull back to the full pipeline, then loop"}]';</script>
+<script>window.OM_PLAYBACK = '{"mode":"loop"}';</script>
+<script>window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "motionEditor": true,
+  "particleDensity": 1
+}/*EDITMODE-END*/;</script>
+</helmet>
+<div style="position: fixed; inset: 0; background: #0e0d0b;">
+  <x-import component-from-global-scope="FunnelPiece" from="./animations-v3.jsx?v=20260814b ./tweaks-panel.jsx?v=20260810 ./coremantle-trainable-scene.jsx?v=20260817-9" hint-size="100%,100%"></x-import>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,1779 @@
+/* home page - ported 1:1 from index.html. Scoped with :where() so specificity
+   matches the original while rules never leak into other routes. */
+@layer base {
+  :where(.page-home) h1,
+  :where(.page-home) h2,
+  :where(.page-home) h3,
+  :where(.page-home) p {
+    margin-top: 0;
+  }
+}
+
+:where(.page-home) {
+  .site-nav {
+    position: fixed;
+    z-index: 60;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    padding: 0 clamp(20px,4vw,64px);
+    background: rgba(var(--bg-rgb),.72);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-mask-image: linear-gradient(to bottom,#000 72%,transparent);
+    mask-image: linear-gradient(to bottom,#000 72%,transparent);
+    pointer-events: none;
+  }
+  .site-nav>* {
+    pointer-events: auto;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  .nav-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .nav-toggle:active {
+    transform: scale(.96);
+  }
+  .site-nav>.theme-toggle--bar {
+    display: none;
+  }
+  .nav-links>a:not(.button) {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease;
+  }
+  .button::after {
+    content: '↗';
+    font-size: 15px;
+  }
+  .button:active {
+    transform: scale(.97);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  .nav-drop {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .nav-drop-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    transition: color .2s;
+  }
+  .nav-drop-caret {
+    width: 11px;
+    height: 11px;
+    transition: transform .22s var(--ease-out);
+  }
+  .nav-drop-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 176px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(var(--bg-rgb),.96);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 24px 60px rgba(0,0,0,.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s var(--ease-out),transform .2s var(--ease-out),visibility .2s;
+  }
+  .nav-drop-menu::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 14px;
+  }
+  .nav-drop-menu a {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 9px;
+    color: var(--cream);
+    font-size: 13px;
+    transition: background .18s,color .18s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-drop-trigger:hover,
+    .nav-drop:hover .nav-drop-trigger,
+    .nav-drop:focus-within .nav-drop-trigger {
+      color: var(--accent);
+    }
+    .nav-drop-menu a:hover {
+      background: rgba(var(--ink-rgb),.08);
+      color: var(--accent);
+    }
+    .nav-drop:hover .nav-drop-menu,
+    .nav-drop:focus-within .nav-drop-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-drop:hover .nav-drop-caret,
+    .nav-drop:focus-within .nav-drop-caret {
+      transform: rotate(180deg);
+    }
+  }
+  .site-nav:has(.nav-drop:hover),
+  .site-nav:has(.nav-drop:focus-within) {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .lede strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  /* Hero: copy up top, then the pinned audio pull-apart scrub */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding: 140px 24px 90px;
+  }
+  .hero .lede {
+    max-width: 760px;
+  }
+  .hero .action-row {
+    margin-top: 44px;
+  }
+  .fold {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .fold::before {
+    content: 'Loading animation';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(var(--ink-rgb),.3);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  /* scenes fade in only once landing.js has parked them on their composed
+     first frame - never a hard swap or a flash of a stale playhead */
+  .fold iframe {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: transparent;
+    opacity: 0;
+    transition: opacity .45s var(--ease-out);
+  }
+  .fold iframe.is-ready {
+    opacity: 1;
+  }
+  .fold-tag {
+    display: none;
+  }
+  .sources {
+    margin: 28px 0 0;
+    color: rgba(var(--ink-rgb),.34);
+    font: 400 10px/1.6 "IBM Plex Mono",monospace;
+  }
+  /* Stacked sticky cards (clay.com section_home-features pattern): each card
+     pins below the nav and the next one slides up to cover it; landing.js
+     scrubs each card's scene over its slide-up travel */
+  .stack-wrap {
+    width: min(100%,1880px);
+    max-width: none;
+    margin-top: 72px;
+  }
+  .stack-list {
+    position: relative;
+  }
+  /* the spacer after the last card is its dwell: real content (not padding),
+     because a sticky card can only stay pinned within the list's content box */
+  .stack-spacer {
+    height: 120svh;
+  }
+  .stack-card {
+    position: sticky;
+    top: 84px;
+    display: grid;
+    grid-template-columns: minmax(280px,.72fr) minmax(0,1.28fr);
+    gap: clamp(28px,4.5vw,72px);
+    align-items: center;
+    min-height: calc(100svh - 104px);
+    padding: clamp(28px,4vw,60px);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--card-bg,var(--surface));
+  }
+  /* the gap between cards is each card's dwell: the pinned card's scene
+     scrubs over this travel before the next card enters and covers it */
+  .stack-card+.stack-card {
+    margin-top: 120svh;
+  }
+  .stack-card--lav {
+    --card-bg: #16161f;
+    --card-hue: #8b93e8;
+    --card-chip-ink: #111;
+    border-color: rgba(139,147,232,.3);
+  }
+  .stack-card--amber {
+    --card-bg: #1c1810;
+    --card-hue: #d9ad55;
+    --card-chip-ink: #111;
+    border-color: rgba(217,173,85,.28);
+  }
+  .stack-card--neutral {
+    --card-bg: #1c1b19;
+    --card-hue: #f6f4ef;
+    --card-chip-ink: #0e0d0b;
+    border-color: rgba(246,244,239,.18);
+  }
+  .stack-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--card-hue);
+    color: var(--card-chip-ink);
+    font: 600 10.5px "IBM Plex Mono",monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .stack-copy h3 {
+    margin: 26px 0 18px;
+    font-size: clamp(30px,3.1vw,46px);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -.035em;
+  }
+  .stack-copy h3 em {
+    color: var(--card-hue);
+    font-style: normal;
+  }
+  .stack-copy p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 46ch;
+  }
+  .stack-card .fold {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: #0e0d0b;
+    box-shadow: 0 26px 60px rgba(0,0,0,.3);
+  }
+  .stack-card .fold iframe {
+    background: #0e0d0b;
+  }
+  /* Wide screens: the card grows past 1440, and the extra width goes to the
+     scene, not the copy column - the copy is already at a comfortable measure */
+  @media (min-width: 1700px) {
+    .stack-card {
+      grid-template-columns: minmax(320px,.58fr) minmax(0,1.42fr);
+    }
+  }
+  /* Pillars + metric band */
+  .pillars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 56px;
+  }
+  .pillar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--cream);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .pillar::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .metric {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin-top: 56px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .metric>div {
+    padding: 28px;
+    border-right: 1px solid var(--line);
+  }
+  .metric>div:last-child {
+    border-right: 0;
+  }
+  .metric strong {
+    display: block;
+    margin-bottom: 36px;
+    font-size: clamp(38px,4.6vw,64px);
+    font-weight: 500;
+    letter-spacing: -.055em;
+  }
+  .metric span {
+    color: var(--muted);
+    font: 500 11px/1.45 "IBM Plex Mono",monospace;
+    text-transform: uppercase;
+  }
+  /* Downstream effect cards */
+  .bench-head {
+    margin-top: 100px;
+    max-width: 720px;
+  }
+  .bench-head h3 {
+    margin: 0;
+    font-size: clamp(30px,3.6vw,52px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+  .bench-head p {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  .effects {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-top: 56px;
+  }
+  .effect {
+    position: relative;
+    min-height: 230px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(145deg,rgba(var(--ink-rgb),.05),rgba(var(--ink-rgb),.015));
+    display: flex;
+    flex-direction: column;
+    transition: border-color .3s var(--ease-out),transform .3s var(--ease-out);
+  }
+  .effect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: 0 0 44px -14px rgba(139,147,232,.55);
+    opacity: 0;
+    transition: opacity .3s var(--ease-out);
+    pointer-events: none;
+  }
+  /* gradients can't interpolate, so the hover tint lives on an overlay that
+     fades by opacity instead of snapping mid-transition */
+  .effect::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(145deg,rgba(139,147,232,.14),rgba(139,147,232,.03));
+    opacity: 0;
+    transition: opacity .3s var(--ease-out);
+    pointer-events: none;
+  }
+  .effect>* {
+    position: relative;
+  }
+  .effect span {
+    color: var(--accent);
+    font: 500 10px/1.6 "IBM Plex Mono",monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .effect h3 {
+    margin: auto 0 14px;
+    font-size: clamp(28px,2.6vw,38px);
+    font-weight: 500;
+    letter-spacing: -.03em;
+  }
+  .effect p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 15.5px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .effect:hover {
+      border-color: rgba(139,147,232,.65);
+      transform: translateY(-4px);
+    }
+    .effect:hover::after {
+      opacity: 1;
+    }
+    .effect:hover::before {
+      opacity: 1;
+    }
+  }
+  /* Pinned wide folds: scroll scrubs the timeline */
+  .fold--wide {
+    width: min(96vw,1880px);
+    margin: 56px auto 0;
+    aspect-ratio: 1920/1080;
+  }
+  .fold-track {
+    position: relative;
+    height: 260svh;
+  }
+  .fold-track--short {
+    height: 200svh;
+  }
+  .fold-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .fold-stage .fold--wide {
+    margin: 0 auto;
+    width: min(96vw,calc((100svh - 48px)*1.7778));
+  }
+  @media (max-width: 820px) {
+    .fold-track {
+      height: 220svh;
+    }
+    .fold-track--short {
+      height: 180svh;
+    }
+    .fold-stage .fold--wide {
+      width: min(96vw,calc((100svh - 60px)*.46));
+    }
+    /* the .46 width cap fits the tallest portrait scene (600/1300); shorter scenes
+       can take more width - sized per fold so none is smaller than it must be */
+    .fold-stage .fold--wide[data-fold="Bidtech Voice.dc.html"] {
+      width: min(96vw,calc((100svh - 60px)*.52));
+    }
+    .fold-stage .fold--wide[data-fold="Coremantle Benchmark.dc.html"] {
+      width: min(96vw,calc((100svh - 60px)*.48));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fold-track,
+    .fold-track--short {
+      height: auto;
+    }
+    .fold-stage {
+      position: static;
+      height: auto;
+    }
+    .fold-stage .fold--wide {
+      margin: 56px auto 0;
+    }
+  }
+  /* Team: story and founders share the first row; the founding team spans below */
+  /* tighter rhythm on desktop only: phones keep the standard 82px section
+     padding (the mobile .section rule used to win by source order) */
+  @media (min-width: 821px) {
+    .section--team {
+      padding-block: clamp(60px,7vw,110px);
+    }
+  }
+  .section--team .display {
+    max-width: 980px;
+    font-size: clamp(38px,4.6vw,64px);
+  }
+  .section--team .lede {
+    margin-top: 16px;
+  }
+  .team-layout {
+    display: grid;
+    grid-template-columns: minmax(320px,.9fr) 1.1fr;
+    gap: clamp(40px,6vw,96px);
+    align-items: start;
+    margin-top: clamp(34px,4vw,54px);
+  }
+  .story {
+    padding-top: 0;
+  }
+  .story p {
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .story strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .story .button {
+    margin-top: 16px;
+  }
+  .team-grid {
+    display: grid;
+    gap: clamp(18px,2.2vw,30px) 16px;
+  }
+  .team-group--founders .team-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+  .team-group--founding {
+    grid-column: 1/-1;
+  }
+  .team-group--founding .team-grid {
+    grid-template-columns: repeat(7,minmax(0,1fr));
+  }
+  .team-label {
+    margin: 0 0 clamp(18px,2vw,24px);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font: 500 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .tmember {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .tmember img {
+    width: clamp(78px,6.6vw,96px);
+    height: clamp(78px,6.6vw,96px);
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(1);
+    opacity: .92;
+  }
+  .tmember b {
+    display: block;
+    margin-top: 11px;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  @media (min-width: 821px) and (max-width: 1100px) {
+    .team-group--founding .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .team-group--founding .tmember {
+      width: calc(25% - 12px);
+    }
+  }
+  /* ===== Quality scrub: the pyramid's prism completes the production stack ===== */
+  .q-scrub {
+    position: relative;
+    height: 340svh;
+    margin-top: 74px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+  .q-stage {
+    --qp: 0;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .q-stage [data-seg],
+  .q-stage .pyr-t,
+  .q-stage .pyr-gem {
+    --t: clamp(0,calc((var(--qp) - var(--s,0)) * var(--v,12.5)),1);
+  }
+  /* chapter 01 starts composed (no entrance term): the stage scrolls into the
+     viewport already showing ground + bottom tier, never a blank screen */
+  .qs1 {
+    --t: clamp(0,calc(var(--qp) * 25),1);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(36px,6vw,110px);
+    padding: 72px clamp(20px,5vw,80px) 0;
+    opacity: calc(1 - clamp(0,calc((var(--qp) - .56) * 12.5),1));
+  }
+  .qs1-fig {
+    position: relative;
+    margin: 0;
+    width: min(44vw,520px);
+    flex: none;
+  }
+  .qs1-fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 26px rgba(139,147,232,.16));
+  }
+  .q-apex {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    width: 2px;
+    height: 2px;
+  }
+  .pyr-ground {
+    fill: rgba(139,147,232,.10);
+  }
+  .pyr-t,
+  .pyr-gem {
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 30px));
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .pf-t {
+    fill: rgba(139,147,232,.30);
+    stroke: rgba(175,181,240,.85);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .pf-l {
+    fill: rgba(139,147,232,.08);
+    stroke: rgba(175,181,240,.4);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .pf-r {
+    fill: rgba(139,147,232,.16);
+    stroke: rgba(175,181,240,.5);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .pyr-gem {
+    opacity: calc(var(--t) * (1 - clamp(0,calc((var(--qp) - .56) * 50),1)));
+  }
+  .gem-glow {
+    fill: rgba(139,147,232,.22);
+  }
+  .gem-body {
+    fill: rgba(139,147,232,.5);
+    stroke: #c3c8f6;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+  .pyr-gem line {
+    stroke: rgba(var(--ink-rgb),.55);
+    stroke-width: 1;
+  }
+  .qs1-labels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 430px;
+  }
+  .qs1-labels li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    column-gap: 14px;
+    align-items: baseline;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 16px));
+  }
+  .qs1-labels b {
+    color: var(--accent);
+    font: 500 11px "IBM Plex Mono",monospace;
+  }
+  .qs1-labels h3 {
+    margin: 0;
+    font-size: clamp(16px,1.4vw,19px);
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .qs1-labels p {
+    grid-column: 2;
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  /* chapter 02 carries live links: keep the invisible layer out of pointer and
+     tab order until landing.js flags it live (same guard as .pl-copy-panel) */
+  .qs2 {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    width: min(100%,1150px);
+    margin-inline: auto;
+    padding: 72px clamp(20px,4vw,64px) 0;
+    opacity: var(--t);
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .qs2-live .qs2 {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .qs2-row {
+    display: grid;
+    grid-template-columns: 1fr 30px 1.15fr 30px 1fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .qs2-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    background: rgba(var(--ink-rgb),.035);
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 18px));
+  }
+  .qs2-card--agent {
+    border-color: rgba(139,147,232,.4);
+    background: rgba(139,147,232,.07);
+  }
+  .qs2-card span {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--accent);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .qs2-card b {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .qs2-card p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .qs2-arrow {
+    align-self: center;
+    justify-self: center;
+    color: rgba(var(--ink-rgb),.5);
+    font-size: 17px;
+    opacity: var(--t);
+  }
+  .qs2-fail {
+    display: inline-flex;
+    margin: 10px 0 0;
+    padding: 6px 9px;
+    border: 1px solid rgba(217,173,85,.45);
+    border-radius: 8px;
+    color: var(--warm);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .05em;
+  }
+  .qs2-card p.qs2-fail {
+    color: var(--warm);
+    font-size: 10px;
+    opacity: var(--t);
+  }
+  .qs2-mid {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    min-height: 20px;
+  }
+  .qs2-drop {
+    color: var(--muted);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: var(--t);
+  }
+  .qs2-replaces {
+    position: absolute;
+    right: 4%;
+    top: -4px;
+    padding: 7px 11px;
+    border: 1px dashed rgba(139,147,232,.55);
+    border-radius: 999px;
+    color: var(--accent);
+    font: 500 9.5px "IBM Plex Mono",monospace;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: var(--t);
+  }
+  .qs2-platform {
+    position: relative;
+    border: 1px solid rgba(139,147,232,.4);
+    border-radius: 20px;
+    padding: 18px 22px 22px;
+    background: linear-gradient(180deg,rgba(139,147,232,.10),rgba(139,147,232,.02));
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 22px));
+    transition: border-color .3s var(--ease-out),box-shadow .3s var(--ease-out);
+  }
+  .is-landed .qs2-platform {
+    border-color: rgba(139,147,232,.75);
+    box-shadow: 0 0 70px -18px rgba(139,147,232,.55),inset 0 0 40px -22px rgba(139,147,232,.4);
+  }
+  .qs2-plat-head {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #c9cdf5;
+    font: 600 11.5px "IBM Plex Mono",monospace;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .qs2-slot {
+    position: relative;
+    width: 26px;
+    height: 30px;
+    flex: none;
+  }
+  .qs2-slot::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 1px dashed rgba(139,147,232,.55);
+    border-radius: 7px;
+    transition: opacity .3s;
+  }
+  .qs2-slot svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(.92);
+    transition: opacity .35s .1s var(--ease-out),transform .35s .1s cubic-bezier(.34,1.56,.64,1);
+  }
+  .qs2-slot svg polygon {
+    fill: rgba(139,147,232,.55);
+    stroke: #c3c8f6;
+    stroke-width: 3;
+    stroke-linejoin: round;
+  }
+  .qs2-slot svg line {
+    stroke: rgba(var(--ink-rgb),.6);
+    stroke-width: 2;
+  }
+  .is-landed .qs2-slot::before {
+    opacity: 0;
+  }
+  /* static shadow + composited opacity pulse (an animated blur radius repaints
+     per frame); three breaths then rest - the platform glow owns the arrival */
+  .is-landed .qs2-slot svg {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(139,147,232,.75));
+    animation: gemRest 3s ease-in-out .4s 3 backwards;
+  }
+  .qs2-chips {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .qs2-chip {
+    position: relative;
+    border: 1px solid rgba(139,147,232,calc(.12 + .55 * var(--t)));
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    background: rgba(var(--bg-rgb),.45);
+    color: rgba(var(--ink-rgb),calc(.4 + .6 * var(--t)));
+  }
+  /* the glow scrubs by opacity on a fixed-blur shadow - a blur radius driven
+     by --t repaints the chip every scroll frame */
+  .qs2-chip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 24px -10px rgba(139,147,232,.6);
+    opacity: var(--t);
+    pointer-events: none;
+  }
+  .qs2-chip:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    transform: translate(50%,-50%);
+    color: rgba(139,147,232,calc(.25 + .55 * var(--t)));
+    font-size: 13px;
+  }
+  .qs2-final {
+    margin: 16px 0 0;
+    text-align: center;
+    font-size: clamp(17px,1.9vw,23px);
+    font-weight: 500;
+    letter-spacing: -.015em;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 14px));
+  }
+  .qs2-final em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  .qs2 .action-row {
+    margin-top: 10px;
+    justify-content: center;
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 14px));
+  }
+  .q-prism {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 6;
+    width: 58px;
+    opacity: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 20px rgba(139,147,232,.65));
+    will-change: transform;
+  }
+  .q-prism svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .q-prism polygon {
+    fill: rgba(139,147,232,.55);
+    stroke: #c3c8f6;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .q-prism line {
+    stroke: rgba(var(--ink-rgb),.6);
+    stroke-width: 1.4;
+  }
+  @media (max-width: 820px) {
+    .q-scrub {
+      height: 300svh;
+    }
+    .qs1 {
+      flex-direction: column;
+      gap: 22px;
+      padding: 80px 20px 24px;
+      justify-content: flex-start;
+    }
+    .qs1-fig {
+      width: min(62vw,300px);
+    }
+    .qs1-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 16px;
+      max-width: none;
+      width: 100%;
+    }
+    .qs1-labels li {
+      grid-template-columns: 24px 1fr;
+    }
+    .qs1-labels h3 {
+      font-size: 14px;
+    }
+    .qs1-labels p {
+      font-size: 11.5px;
+      margin-top: 4px;
+    }
+    .qs2 {
+      gap: 12px;
+      padding: 76px 16px 16px;
+      justify-content: flex-start;
+    }
+    .qs2-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .qs2-arrow {
+      transform: rotate(90deg);
+      font-size: 14px;
+    }
+    .qs2-card {
+      padding: 12px 14px;
+    }
+    .qs2-card span {
+      margin-bottom: 6px;
+    }
+    .qs2-card b {
+      font-size: 13.5px;
+    }
+    .qs2-card p {
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .qs2-chips {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .qs2-chip {
+      padding: 11px 8px;
+      font-size: 11.5px;
+    }
+    .qs2-chip:not(:last-child)::after {
+      display: none;
+    }
+    .qs2-replaces {
+      display: none;
+    }
+    .qs2-final {
+      font-size: 15px;
+    }
+    .q-prism {
+      width: 40px;
+    }
+  }
+  /* Short phones: the pinned quality stage is one 100svh screen with overflow
+     hidden - compress chapter 02 so the closing line and CTA never clip */
+  @media (max-width: 820px) and (max-height: 820px) {
+    .qs2 {
+      padding-top: 66px;
+      gap: 8px;
+    }
+    .qs2-row {
+      gap: 6px;
+    }
+    .qs2-card {
+      padding: 9px 12px;
+    }
+    .qs2-card p {
+      margin-top: 3px;
+      font-size: 10.5px;
+    }
+    .qs2-mid {
+      min-height: 14px;
+    }
+    .qs2-platform {
+      padding: 12px 14px 14px;
+    }
+    .qs2-chips {
+      margin-top: 8px;
+      gap: 6px;
+    }
+    .qs2-chip {
+      padding: 9px 6px;
+      font-size: 11px;
+    }
+    .qs2-final {
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .qs2 .action-row {
+      margin-top: 4px;
+    }
+    .qs2 .action-row .button {
+      min-height: 38px;
+      padding-inline: 14px;
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 820px) and (max-height: 720px) {
+    .qs2-card p:not(.qs2-fail) {
+      display: none;
+    }
+    .qs2-arrow {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .q-scrub {
+      height: auto;
+      width: auto;
+      margin-left: 0;
+    }
+    .q-stage {
+      --qp: 1;
+      position: static;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+    }
+    .qs1,
+    .qs2 {
+      position: static;
+      inset: auto;
+      opacity: 1 !important;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .q-stage [data-seg],
+    .q-stage .pyr-t {
+      --t: 1;
+    }
+    .pyr-gem {
+      opacity: 1 !important;
+    }
+    .q-prism {
+      display: none;
+    }
+    .qs2-slot svg {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .qs2-slot::before {
+      opacity: 0;
+    }
+  }
+  /* Two paths */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 70px;
+  }
+  .choice {
+    padding: clamp(30px,4vw,52px);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    background: rgba(var(--ink-rgb),.035);
+  }
+  .choice:first-child {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .choice .eyebrow {
+    color: inherit;
+    opacity: .65;
+  }
+  .choice:first-child .eyebrow::before {
+    background: var(--accent-ink);
+  }
+  .choice h3 {
+    margin: 80px 0 18px;
+    font-size: clamp(34px,4vw,54px);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .choice p {
+    max-width: 470px;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .choice:first-child p {
+    color: rgba(var(--accent-ink-rgb),.68);
+  }
+  .choice:first-child .button {
+    background: var(--accent-ink);
+    color: var(--cream);
+  }
+  .choice .action-row {
+    margin-top: 34px;
+  }
+  /* Closing CTA */
+  .cta-final {
+    text-align: center;
+  }
+  .cta-final .eyebrow {
+    justify-content: center;
+  }
+  .cta-final .display {
+    margin-inline: auto;
+  }
+  .cta-final .lede {
+    margin-inline: auto;
+  }
+  .cta-final .action-row {
+    justify-content: center;
+    margin-top: 44px;
+  }
+  .site-footer {
+    padding: 54px 24px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-in {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms var(--ease-out),transform 600ms var(--ease-out);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (max-width: 820px) {
+    .site-nav {
+      height: 62px;
+      padding-inline: 18px;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .site-nav {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      right: 14px;
+      left: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 8px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease-out),transform .22s var(--ease-out),visibility .22s;
+    }
+    .site-nav.nav-open .nav-links {
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-links>a:not(.button) {
+      display: block;
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px;
+    }
+    .nav-links .theme-toggle {
+      display: none;
+    }
+    .site-nav>.theme-toggle--bar {
+      display: inline-flex;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+    .nav-links .button {
+      min-height: 38px;
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+    .nav-drop {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .nav-drop-trigger {
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px 0;
+      pointer-events: none;
+    }
+    .nav-drop-caret {
+      display: none;
+    }
+    .nav-drop-menu {
+      position: static;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      min-width: 0;
+      gap: 10px;
+      margin-left: 6px;
+      padding: 0 0 0 14px;
+      border: 0;
+      border-left: 1px solid var(--line);
+      border-radius: 0;
+      background: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: none;
+    }
+    .nav-drop-menu::before {
+      display: none;
+    }
+    .nav-drop-menu a {
+      padding: 2px 0;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .site-nav .nav-drop:hover .nav-drop-menu,
+    .site-nav .nav-drop:focus-within .nav-drop-menu {
+      transform: none;
+    }
+    .hero {
+      min-height: 92svh;
+      padding: 120px 20px 70px;
+    }
+    .stack-wrap {
+      margin-top: 48px;
+    }
+    /* the card must fit the viewport while pinned: cap its height and let the
+       fold row absorb the shortfall - the scene contain-fits (letterboxes on the
+       card's own background), so a shorter box never crops the composition */
+    .stack-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto minmax(0,1fr);
+      gap: 22px;
+      align-items: start;
+      min-height: 0;
+      max-height: calc(100svh - 88px);
+      top: 72px;
+      padding: 22px 18px 20px;
+      border-radius: 20px;
+    }
+    .stack-card--trainability {
+      min-height: calc(100svh - 88px);
+    }
+    .stack-card+.stack-card {
+      margin-top: 110svh;
+    }
+    .stack-spacer {
+      height: 110svh;
+    }
+    .stack-copy h3 {
+      margin: 18px 0 12px;
+      font-size: clamp(26px,7vw,34px);
+    }
+    .stack-copy p {
+      font-size: 15px;
+    }
+    .stack-card .fold {
+      border-radius: 14px;
+    }
+    .metric {
+      grid-template-columns: 1fr;
+    }
+    .metric>div {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .metric>div:last-child {
+      border-bottom: 0;
+    }
+    .metric strong {
+      margin-bottom: 18px;
+    }
+    .bench-head {
+      margin-top: 56px;
+    }
+    .fold--wide {
+      margin-top: 30px;
+    }
+    .effects {
+      grid-template-columns: 1fr;
+    }
+    .effect {
+      min-height: 190px;
+    }
+    .team-layout {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .team-grid,
+    .team-group--founding .team-grid {
+      grid-template-columns: repeat(3,1fr);
+      gap: 28px 8px;
+    }
+    .team-group--founders .team-grid {
+      grid-template-columns: repeat(2,1fr);
+    }
+    .tmember img {
+      width: 84px;
+      height: 84px;
+    }
+    .tmember b {
+      margin-top: 12px;
+      font-size: 13.5px;
+    }
+    .choice-grid {
+      grid-template-columns: 1fr;
+    }
+    .choice h3 {
+      margin-top: 55px;
+    }
+    .footer-in {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    /* portrait fold aspects: the scenes ship portrait layouts on tall boxes */
+    .fold--wide[data-fold="Bidtech Voice.dc.html"] {
+      aspect-ratio: 600/1150 !important;
+    }
+    .fold[data-fold="Coremantle Data Gap.dc.html"] {
+      aspect-ratio: 600/1050 !important;
+    }
+    .fold[data-fold="Coremantle Scale.dc.html"] {
+      aspect-ratio: 600/1200 !important;
+    }
+    .fold[data-fold="Coremantle Representation.dc.html"] {
+      aspect-ratio: 600/1200 !important;
+    }
+    .fold[data-fold="Coremantle Trainable.dc.html"] {
+      aspect-ratio: 600/620 !important;
+    }
+    .fold[data-fold="Coremantle Complexity Flow.dc.html"] {
+      aspect-ratio: 600/790 !important;
+    }
+    .fold--wide[data-fold="Coremantle GPU Burn.dc.html"] {
+      aspect-ratio: 600/1300 !important;
+    }
+    .fold--wide[data-fold="Coremantle Benchmark.dc.html"] {
+      aspect-ratio: 600/1250 !important;
+    }
+    /* Uniform deck: every stack card's scene box gets the same height and the same
+       portrait ratio (after the per-fold aspects above, so this wins), so the deck
+       doesn't shrink card by card as copy length and canvas height vary - the
+       scenes contain-fit inside and their stage bg matches the box, so the small
+       internal letterbox is invisible. 340 = nav band + card chrome + longest copy. */
+    .stack-card .fold {
+      justify-self: center;
+      width: auto;
+      min-height: 0;
+      height: min(calc((100vw - 76px)*2),calc(100svh - 340px));
+      max-height: 100%;
+      aspect-ratio: 600/1200 !important;
+    }
+    .stack-card .fold[data-fold="Coremantle Trainable.dc.html"] {
+      align-self: stretch;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      aspect-ratio: auto !important;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .problem-nav-detail,
+    .button {
+      transition-duration: 0ms !important;
+    }
+    .fold iframe {
+      transition: none;
+    }
+    /* the stacked deck reads as three plain cards: no pinning, no dwell voids */
+    .stack-card {
+      position: static;
+      min-height: 0;
+      max-height: none;
+    }
+    .stack-card+.stack-card {
+      margin-top: 16px;
+    }
+    .stack-spacer {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .site-nav {
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  @media (prefers-contrast: more) {
+    .site-nav {
+      background: var(--bg);
+    }
+    .button {
+      border-color: rgba(var(--ink-rgb),.42);
+    }
+  }
+  /* Stack copy above the scene on tablets, keeping all three cards aligned. */
+  .stack-card--complexity .stack-copy h3 {
+    font-size: clamp(28px,2.2vw,38px);
+    line-height: 1.12;
+  }
+  @media (min-width: 601px) and (max-width: 1366px) {
+    .stack-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto minmax(0,1fr);
+      align-items: start;
+      gap: 20px;
+      padding: 24px;
+      top: 84px;
+      min-height: min(820px,calc(100svh - 104px));
+      max-height: min(820px,calc(100svh - 104px));
+    }
+    .stack-copy h3 {
+      margin: 14px 0 10px;
+      font-size: clamp(24px,2.7vw,32px);
+    }
+    .stack-copy p {
+      max-width: 90ch;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .stack-card--complexity .stack-copy h3 {
+      max-width: 64ch;
+      font-size: clamp(24px,2.7vw,32px);
+    }
+    .stack-card .fold {
+      align-self: stretch;
+      justify-self: stretch;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+      aspect-ratio: auto !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .stack-card--complexity {
+      min-height: calc(100svh - 88px);
+      gap: 14px;
+    }
+    .stack-card--complexity .stack-copy h3 {
+      font-size: 19px;
+      line-height: 1.15;
+      margin: 12px 0 10px;
+    }
+    .stack-card--complexity .stack-copy p {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .stack-card--complexity .fold {
+      align-self: stretch;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      aspect-ratio: auto !important;
+    }
+  }
+  @media (max-width: 600px) and (max-height: 740px) {
+    .stack-card--complexity {
+      gap: 12px;
+    }
+    .stack-card--complexity .stack-copy h3 {
+      font-size: 17px;
+      margin: 10px 0 8px;
+    }
+    .stack-card--complexity .stack-copy p {
+      line-height: 1.4;
+    }
+  }
+  @media (min-width: 601px) and (max-width: 1366px) and (prefers-reduced-motion: reduce) {
+    .stack-card {
+      min-height: 0;
+      max-height: none;
+      grid-template-rows: auto auto;
+    }
+    .stack-card .fold {
+      height: auto;
+      aspect-ratio: 900/600 !important;
+    }
+  }
+  @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+    .stack-card--complexity {
+      min-height: 0;
+    }
+    .stack-card--complexity .fold {
+      height: auto;
+      aspect-ratio: 400/560 !important;
+    }
+  }
+  /* ===== Theme toggle + light theme ===== */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  .theme-toggle:active {
+    transform: scale(.96);
+  }
+  /* one-shot cross-ease while the toggle swaps the palette (class set by the
+     head theme script); large surfaces only, and never the scene filters */
+  html.theme-easing & .site-nav,
+  html.theme-easing & .section,
+  html.theme-easing & .stack-card,
+  html.theme-easing & .fold,
+  html.theme-easing & .button,
+  html.theme-easing & .choice,
+  html.theme-easing & .effect,
+  html.theme-easing & .metric>div,
+  html.theme-easing & .qs2-card,
+  html.theme-easing & .qs2-platform {
+    transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+  }
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  .theme-toggle .i-moon {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-sun {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-moon {
+    display: block;
+  }
+  @media (max-width: 820px) {
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+    }
+    .theme-toggle svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  /* Light mode: the fold scenes render on their own dark stage; invert+hue-rotate
+     flips lightness while keeping the lavender/amber hues, so every animation
+     follows the theme without a second color pass. Inverted #0e0d0b lands on
+     #f1f2f4, so the fold box uses that tone while a scene loads. */
+  html[data-theme=light] & .fold iframe {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  html[data-theme=light] & .stack-card--complexity .fold iframe {
+    filter: none;
+    background: var(--bg);
+  }
+  html[data-theme=light] & .stack-card--complexity .fold {
+    background: var(--bg);
+  }
+  html[data-theme=light] & .fold {
+    background: #f1f2f4;
+    border-radius: 18px;
+  }
+  /* Stacked cards: pre-blended paper tints in place of the dark blends */
+  html[data-theme=light] & .stack-card--lav {
+    --card-bg: #eceef8;
+    --card-hue: #4f58c4;
+    --card-chip-ink: #fff;
+    border-color: rgba(79,88,196,.3);
+  }
+  html[data-theme=light] & .stack-card--amber {
+    --card-bg: #f3ecdd;
+    --card-hue: #8a6414;
+    --card-chip-ink: #fff;
+    border-color: rgba(138,100,20,.3);
+  }
+  html[data-theme=light] & .stack-card--neutral {
+    --card-bg: #efece3;
+    --card-hue: #1c1a14;
+    --card-chip-ink: #faf8f3;
+    border-color: rgba(28,26,20,.2);
+  }
+  html[data-theme=light] & .stack-card .fold {
+    background: #f1f2f4;
+  }
+  html[data-theme=light] & .stack-card .fold iframe {
+    background: #f1f2f4;
+  }
+  /* Pale-lavender literals tuned for the dark stage get a deeper tone on paper */
+  html[data-theme=light] & .qs2-plat-head {
+    color: #3a42a4;
+  }
+  html[data-theme=light] & .pf-t {
+    stroke: rgba(79,88,196,.85);
+  }
+  html[data-theme=light] & .pf-l {
+    stroke: rgba(79,88,196,.4);
+  }
+  html[data-theme=light] & .pf-r {
+    stroke: rgba(79,88,196,.5);
+  }
+  html[data-theme=light] & .gem-body {
+    stroke: #4f58c4;
+  }
+  html[data-theme=light] & .qs2-slot svg polygon,
+  html[data-theme=light] & .q-prism polygon {
+    stroke: #4f58c4;
+  }
+}
+
+html.theme-easing body:has(> :where(.page-home)) {
+  transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+}

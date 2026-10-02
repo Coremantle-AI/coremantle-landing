@@ -1,0 +1,66 @@
+/*
+ * Stylesheet entry point.
+ *
+ * Cascade, lowest to highest precedence:
+ *   theme      Tailwind design-token variables
+ *   base       document defaults + tokens (styles/base)
+ *   utilities  Tailwind utilities used by the UI primitives (components/ui)
+ *   unlayered  page stylesheets (styles/pages) and shared component sheets
+ *              (styles/components), ported 1:1 from the static site
+ *
+ * The page/component sheets stay unlayered on purpose: they carry the site's
+ * contextual overrides (e.g. `.choice .eyebrow`, `.cta-final .action-row`),
+ * which beat the primitive's base styling exactly as their higher selector
+ * specificity did in the original markup.
+ *
+ * Tailwind's Preflight is intentionally not imported - see base/reset.css.
+ */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@import "./base/tokens.css" layer(base);
+@import "./base/reset.css" layer(base);
+
+/* Page stylesheets: each is scoped to its route wrapper (`.page-<name>`). */
+@import "./pages/home.css";
+@import "./pages/about.css";
+@import "./pages/bigtech.css";
+@import "./pages/careers.css";
+@import "./pages/contact.css";
+@import "./pages/enterprise.css";
+@import "./pages/privacy.css";
+@import "./pages/process.css";
+
+/* Shared component stylesheets. */
+@import "./components/site-navigation.css";
+@import "./components/contact-dialog.css";
+@import "./components/team.css";
+@import "./components/problem-layout.css";
+@import "./components/enterprise-scenes.css";
+@import "./components/bigtech-scenes.css";
+@import "./components/horizon.css";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-cream: var(--cream);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-warm: var(--warm);
+
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+}
+
+/* The site's single layout breakpoint (820px), matched inclusively like the
+   original `max-width` queries - Tailwind's built-in `max-*` variants are
+   exclusive (`width < n`). */
+@custom-variant mobile (@media (max-width: 820px));
+@custom-variant desktop (@media (min-width: 821px));

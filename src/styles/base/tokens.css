@@ -1,0 +1,32 @@
+/* Design tokens. Two themes off one semantic set; dark is the default and
+   `html[data-theme=light]` overrides it (set before first paint by the theme
+   bootstrap script in the root layout). Text, lines and muted tones are alpha
+   blends of --ink-rgb so they invert cleanly per theme. */
+:root {
+  --bg: #0e0d0b;
+  --surface: #171612;
+  --cream: #f6f4ef;
+  --muted: rgba(var(--ink-rgb), .62);
+  --line: rgba(var(--ink-rgb), .13);
+  --accent: #8b93e8;
+  --warm: #d9ad55;
+  --ink-rgb: 246, 244, 239;
+  --bg-rgb: 14, 13, 11;
+  --accent-ink: #111;
+  --accent-ink-rgb: 17, 17, 17;
+  --wrap: 1240px;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+}
+
+html[data-theme=light] {
+  --bg: #faf8f3;
+  --surface: #efece3;
+  --cream: #1c1a14;
+  --accent: #4f58c4;
+  --warm: #8a6414;
+  --ink-rgb: 28, 26, 20;
+  --bg-rgb: 250, 248, 243;
+  --accent-ink: #fff;
+  --accent-ink-rgb: 255, 255, 255;
+}

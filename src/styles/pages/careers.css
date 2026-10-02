@@ -1,0 +1,346 @@
+/* careers page - ported 1:1 from careers.html. Scoped with :where() so specificity
+   matches the original while rules never leak into other routes. */
+@layer base {
+  :where(.page-careers) h1,
+  :where(.page-careers) h2,
+  :where(.page-careers) h3,
+  :where(.page-careers) p {
+    margin-top: 0;
+  }
+}
+
+:where(.page-careers) {
+  html.theme-easing & .site-nav,
+  html.theme-easing & .section,
+  html.theme-easing & .button,
+  html.theme-easing & .cta,
+  html.theme-easing & .role {
+    transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+  }
+  /*nav */
+  .site-nav {
+    position: fixed;
+    z-index: 60;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    padding: 0 clamp(20px,4vw,64px);
+    background: rgba(var(--bg-rgb),.72);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-mask-image: linear-gradient(to bottom,#000 72%,transparent);
+    mask-image: linear-gradient(to bottom,#000 72%,transparent);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  .nav-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+  .nav-toggle:active {
+    transform: scale(.96);
+  }
+  .site-nav>.theme-toggle--bar {
+    display: none;
+  }
+  .nav-links>a:not(.button) {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease;
+  }
+  .button::after {
+    content: '↗';
+    font-size: 15px;
+  }
+  .button:active {
+    transform: scale(.97);
+  }
+  .button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--cream);
+      color: var(--bg);
+    }
+    .button--primary:hover {
+      background: var(--cream);
+    }
+  }
+  .button--lg {
+    min-height: 56px;
+    padding: 0 30px;
+    font-size: 16px;
+  }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(var(--ink-rgb),.08);
+    color: var(--cream);
+    cursor: pointer;
+    transition: background .25s,color .25s,transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  .theme-toggle:active {
+    transform: scale(.96);
+  }
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  .theme-toggle .i-moon {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-sun {
+    display: none;
+  }
+  html[data-theme=light] & .theme-toggle .i-moon {
+    display: block;
+  }
+  /* layout */
+  .lede strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms var(--ease-out),transform 600ms var(--ease-out);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+  /* hero */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 140px 24px 90px;
+    border-top: 0;
+  }
+  /* roles */
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 14px;
+    margin-top: 70px;
+  }
+  .role {
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(145deg,rgba(var(--ink-rgb),.05),rgba(var(--ink-rgb),.015));
+  }
+  .role span {
+    color: var(--accent);
+    font: 500 10px "IBM Plex Mono",monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .role h3 {
+    margin: 14px 0 10px;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .role p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  /* pitch cta */
+  .cta {
+    padding: clamp(70px,9vw,120px) 24px;
+    border-top: 1px solid var(--line);
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .cta .eyebrow {
+    color: inherit;
+    opacity: .7;
+  }
+  .cta .eyebrow::before {
+    background: var(--accent-ink);
+  }
+  .cta-in {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .cta h2 {
+    max-width: 16ch;
+    margin: 0;
+    font-size: clamp(34px,5vw,64px);
+    font-weight: 500;
+    line-height: .98;
+    letter-spacing: -.04em;
+  }
+  .cta h2 em {
+    font-style: normal;
+    color: var(--cream);
+  }
+  .cta p {
+    max-width: 52ch;
+    margin: 18px 0 0;
+    color: rgba(var(--accent-ink-rgb),.72);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .cta .button {
+    background: var(--accent-ink);
+    border-color: var(--accent-ink);
+    color: var(--cream);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cta .button:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+  }
+  /* footer */
+  .site-footer {
+    padding: 54px 24px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-in {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  @media (max-width: 820px) {
+    .site-nav {
+      height: 62px;
+      padding-inline: 18px;
+    }
+    .nav-links {
+      gap: 16px;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .site-nav {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      right: 14px;
+      left: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 8px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(var(--bg-rgb),.96);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease-out),transform .22s var(--ease-out),visibility .22s;
+    }
+    .site-nav.nav-open .nav-links {
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-links>a:not(.button) {
+      display: block;
+      font-size: 16px;
+      color: var(--cream);
+      padding: 6px 2px;
+    }
+    .nav-links .theme-toggle {
+      display: none;
+    }
+    .site-nav>.theme-toggle--bar {
+      display: inline-flex;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+    .hero {
+      min-height: 92svh;
+      padding: 120px 20px 70px;
+    }
+    .roles {
+      grid-template-columns: 1fr;
+    }
+    .cta-in {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .footer-in {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+html.theme-easing body:has(> :where(.page-careers)) {
+  transition: background-color .32s ease,color .32s ease,border-color .32s ease !important;
+}
