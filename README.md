@@ -125,6 +125,7 @@ committed).
 
 ## Deploy
 
-Any Next.js host. Set the environment variables above in the host's settings.
+Any Next.js host. On Netlify, `netlify.toml` pins the Next.js runtime
+(`@netlify/plugin-nextjs`); keep it, or every route returns 404. Set the environment variables above in the host's settings.
 `next.config.mjs` serves `.jsx` as `text/javascript` (required, or every scene
 silently fails to load) and sets the security headers.
