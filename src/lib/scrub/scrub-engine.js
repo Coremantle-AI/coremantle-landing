@@ -317,7 +317,7 @@ const mountFrame = host => {
   if (host.querySelector('iframe')) return;
   const iframe = document.createElement('iframe');
   iframe.title = host.querySelector('.fold-tag')?.textContent || 'Coremantle animation';
-  iframe.loading = 'lazy';
+  iframe.loading = 'eager';
   iframe.addEventListener('load', () => configureFrame(host));
   iframe.src = `/folds/${encodeURIComponent(host.dataset.fold)}`;
   iframe.setAttribute('allow', 'autoplay');
@@ -325,14 +325,14 @@ const mountFrame = host => {
 };
 
 const observers = () => {
-  // scenes are fetched shortly before they scroll into view
+  // Start composing scenes well before they reach the viewport.
   loader ??= new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) mountFrame(entry.target);
       });
     },
-    { rootMargin: '500px 0px' },
+    { rootMargin: '2000px 0px' },
   );
   playback ??= new IntersectionObserver(
     entries => {
