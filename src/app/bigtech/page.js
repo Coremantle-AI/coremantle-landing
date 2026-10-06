@@ -11,15 +11,17 @@ import Display from '@/components/ui/Display';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Section from '@/components/ui/Section';
 import Wrap from '@/components/ui/Wrap';
-import { CONTACT_EMAIL, mailto } from '@/config/site';
+import { pageMetadata } from '@/config/metadata';
+import { CONTACT_EMAIL, ROUTES, mailto } from '@/config/site';
 import FlywheelScrub from '@/features/bigtech/FlywheelScrub';
 import { AMBITIONS, BIGTECH_PROBLEMS, PIPELINE_STATS } from '@/features/bigtech/content';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - The data layer for the next billion AI users',
   description:
     'High-quality data programs for frontier models, sovereign AI and voice infrastructure. Built for continuous training, evaluation, and model improvement.',
-};
+  path: ROUTES.bigtech,
+});
 
 const DATA_PROGRAM = mailto('Build our data program');
 

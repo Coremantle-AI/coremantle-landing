@@ -14,16 +14,18 @@ import Button from '@/components/ui/Button';
 import Lede from '@/components/ui/Lede';
 import Section from '@/components/ui/Section';
 import Wrap from '@/components/ui/Wrap';
+import { pageMetadata } from '@/config/metadata';
 import { CONTACT_EMAIL, ROUTES, mailto } from '@/config/site';
 import DataGapStack from '@/features/home/DataGapStack';
 import DownstreamEffects from '@/features/home/DownstreamEffects';
 import PathChoices from '@/features/home/PathChoices';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - Filling the data intelligence void for AI',
   description:
     'Coremantle builds the high-quality, consented, and model-ready data infrastructure AI needs to understand underserved languages. It captures the complexity of dialects, accents, code-switching, and real-world context that conventional data pipelines miss.',
-};
+  path: ROUTES.home,
+});
 
 const SAMPLE_DATA = mailto('Coremantle sample data');
 const TALK_TO_US = `mailto:${CONTACT_EMAIL}`;

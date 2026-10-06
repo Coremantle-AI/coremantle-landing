@@ -2,7 +2,7 @@
    otherwise reach the home page, which also has a #problem section. */
 :where(.page-bigtech) {
   /* Native scenes handle their own theme; only portrait composition is page-specific. */
-  html[data-theme=light] .fold.bigtech-fold iframe{filter:none}
+  html[data-theme=light] & .fold.bigtech-fold iframe{filter:none}
   @media(min-width:601px) and (max-width:820px){
    #problem .fold.bigtech-fold{aspect-ratio:3/2!important}
   }

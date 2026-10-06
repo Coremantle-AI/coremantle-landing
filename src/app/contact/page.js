@@ -1,11 +1,13 @@
 import { Fragment } from 'react';
 import PageShell from '@/components/layout/PageShell';
+import { pageMetadata } from '@/config/metadata';
 import { CONTACT_EMAIL, ROUTES } from '@/config/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Contact us - Coremantle AI',
   description: 'Get in touch with Coremantle AI - offices in Bengaluru, India and New York, US. Email contact@coremantle.ai.',
-};
+  path: ROUTES.contact,
+});
 
 const OFFICES = [
   {

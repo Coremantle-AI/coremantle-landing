@@ -7,13 +7,15 @@ import TeamSection from '@/components/team/TeamSection';
 import ActionRow from '@/components/ui/ActionRow';
 import Button from '@/components/ui/Button';
 import Wrap from '@/components/ui/Wrap';
+import { pageMetadata } from '@/config/metadata';
 import { ROUTES, mailto } from '@/config/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - About us',
   description:
     "Building the data layer for a world AI still doesn't understand. Coremantle closes the representation gap with high-quality, representative data infrastructure across languages, cultures and contexts.",
-};
+  path: ROUTES.about,
+});
 
 export default function AboutPage() {
   return (

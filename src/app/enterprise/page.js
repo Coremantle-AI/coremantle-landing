@@ -11,15 +11,17 @@ import ActionRow from '@/components/ui/ActionRow';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Wrap from '@/components/ui/Wrap';
-import { CONTACT_EMAIL, mailto } from '@/config/site';
+import { pageMetadata } from '@/config/metadata';
+import { CONTACT_EMAIL, ROUTES, mailto } from '@/config/site';
 import ArchitectureScrub from '@/features/enterprise/ArchitectureScrub';
 import { ENTERPRISE_PROBLEMS, INDUSTRIES } from '@/features/enterprise/content';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - data intelligence for enterprise',
   description:
     'Coremantle provides training-ready data built for higher accuracy, fewer wasted cycles, and production-grade AI for your enterprise.',
-};
+  path: ROUTES.enterprise,
+});
 
 export default function EnterprisePage() {
   return (

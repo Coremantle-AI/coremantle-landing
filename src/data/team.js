@@ -99,7 +99,7 @@ export const TEAM = [
     linkedin: 'https://www.linkedin.com/in/anurag-zubin-behera/',
     bio: [
       'Anurag is an engineer turned community builder, with a deep-rooted passion for languages and technology.',
-      'His journey took him from automotive engineering to founding Srujani, a multilingual knowledge-sharing platform for Indian languages. Along the way, he saw firsthand how much of India’s knowledge and culture remained invisible in the digital world.',
+      'His journey took him from automotive engineering to founding Srujanee, a multilingual knowledge-sharing platform for Indian languages. Along the way, he saw firsthand how much of India’s knowledge and culture remained invisible in the digital world.',
       'Today at Coremantle, he is building the human community that can teach AI the languages, nuances and contexts of the people it serves.',
     ],
   },

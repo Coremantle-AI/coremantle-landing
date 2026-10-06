@@ -6,14 +6,16 @@ import ActionRow from '@/components/ui/ActionRow';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Wrap from '@/components/ui/Wrap';
-import { CONTACT_EMAIL, mailto } from '@/config/site';
+import { pageMetadata } from '@/config/metadata';
+import { CONTACT_EMAIL, ROUTES, mailto } from '@/config/site';
 import PipelineScrub from '@/features/process/PipelineScrub';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - How Coremantle works',
   description:
     'Gold standard data intelligence with market-leading accuracy. Precision sourcing, tech-enforced QC, an expert community, and model-ready data — one quality-controlled system.',
-};
+  path: ROUTES.process,
+});
 
 const DATA_SAMPLES = mailto('Coremantle data samples');
 

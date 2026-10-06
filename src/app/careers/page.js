@@ -5,13 +5,15 @@ import SectionIntro from '@/components/sections/SectionIntro';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Wrap from '@/components/ui/Wrap';
+import { pageMetadata } from '@/config/metadata';
 import { ROUTES } from '@/config/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Coremantle - Careers',
   description:
     "Help build the data AI is missing. We keep it simple: no long job descriptions - tell us what you'd build and send your resume to careers@coremantle.ai.",
-};
+  path: ROUTES.careers,
+});
 
 const PITCH = {
   label: 'Send us your pitch',

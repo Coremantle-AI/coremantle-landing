@@ -1,12 +1,14 @@
 import PageShell from '@/components/layout/PageShell';
+import { pageMetadata } from '@/config/metadata';
 import { ROUTES } from '@/config/site';
 import PrivacyNotice from '@/features/privacy/PrivacyNotice';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Privacy Notice - Coremantle AI',
   description:
     'How Coremantle AI Private Limited collects, uses, stores, discloses, and protects personal data, under the DPDPA 2023 and the GDPR where relevant.',
-};
+  path: ROUTES.privacy,
+});
 
 export default function PrivacyPage() {
   return (
