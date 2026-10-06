@@ -11,9 +11,9 @@ import { CONTACT_EMAIL, ROUTES, mailto } from '@/config/site';
 import PipelineScrub from '@/features/process/PipelineScrub';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - How Coremantle works',
+  title: 'How It Works: Gold-Standard AI Training Data | Coremantle',
   description:
-    'Gold standard data intelligence with market-leading accuracy. Precision sourcing, tech-enforced QC, an expert community, and model-ready data — one quality-controlled system.',
+    'Precision sourcing, tech-enforced QC, an expert linguist community and model-ready delivery: one quality-controlled system for AI training data.',
   path: ROUTES.process,
 });
 

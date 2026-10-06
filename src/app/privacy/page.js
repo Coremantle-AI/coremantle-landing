@@ -4,7 +4,7 @@ import { ROUTES } from '@/config/site';
 import PrivacyNotice from '@/features/privacy/PrivacyNotice';
 
 export const metadata = pageMetadata({
-  title: 'Privacy Notice - Coremantle AI',
+  title: 'Privacy Notice | Coremantle',
   description:
     'How Coremantle AI Private Limited collects, uses, stores, discloses, and protects personal data, under the DPDPA 2023 and the GDPR where relevant.',
   path: ROUTES.privacy,

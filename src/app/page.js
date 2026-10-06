@@ -21,9 +21,9 @@ import DownstreamEffects from '@/features/home/DownstreamEffects';
 import PathChoices from '@/features/home/PathChoices';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - Filling the data intelligence void for AI',
+  title: 'AI Training Data for Underserved Languages | Coremantle',
   description:
-    'Coremantle builds the high-quality, consented, and model-ready data infrastructure AI needs to understand underserved languages. It captures the complexity of dialects, accents, code-switching, and real-world context that conventional data pipelines miss.',
+    'High-quality, consented, model-ready speech and language data for AI, capturing the dialects, accents, code-switching and context other pipelines miss.',
   path: ROUTES.home,
 });
 

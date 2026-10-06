@@ -17,9 +17,9 @@ import FlywheelScrub from '@/features/bigtech/FlywheelScrub';
 import { AMBITIONS, BIGTECH_PROBLEMS, PIPELINE_STATS } from '@/features/bigtech/content';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - The data layer for the next billion AI users',
+  title: 'Speech & Language Data for Frontier AI Labs | Coremantle',
   description:
-    'High-quality data programs for frontier models, sovereign AI and voice infrastructure. Built for continuous training, evaluation, and model improvement.',
+    'Consented, quality-certified speech and language data for frontier labs, sovereign AI and voice AI, built for training, evaluation and alignment.',
   path: ROUTES.bigtech,
 });
 
@@ -120,7 +120,7 @@ export default function BigTechPage() {
             eyebrow="Continuous data infrastructure"
             title={
               <>
-                Built for continuous <em>improvment.</em>
+                Built for continuous <em>improvement.</em>
               </>
             }
             lede="CoreMantle supplies the training, alignment, evaluation, and refresh data your models need at every stage. Not a one-time dataset. A continuously evolving data infrastructure for continuously evolving models."

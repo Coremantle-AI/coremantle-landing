@@ -25,6 +25,10 @@ const nextConfig = {
         ],
       },
       {
+        source: '/folds/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+      },
+      {
         source: '/:path(support\\.js|folds/support\\.js)',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },

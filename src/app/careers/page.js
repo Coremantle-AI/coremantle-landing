@@ -9,7 +9,7 @@ import { pageMetadata } from '@/config/metadata';
 import { ROUTES } from '@/config/site';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - Careers',
+  title: 'Careers at Coremantle | Build the Data AI Is Missing',
   description:
     "Help build the data AI is missing. We keep it simple: no long job descriptions - tell us what you'd build and send your resume to careers@coremantle.ai.",
   path: ROUTES.careers,

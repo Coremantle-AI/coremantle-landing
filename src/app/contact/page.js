@@ -4,8 +4,9 @@ import { pageMetadata } from '@/config/metadata';
 import { CONTACT_EMAIL, ROUTES } from '@/config/site';
 
 export const metadata = pageMetadata({
-  title: 'Contact us - Coremantle AI',
-  description: 'Get in touch with Coremantle AI - offices in Bengaluru, India and New York, US. Email contact@coremantle.ai.',
+  title: 'Contact Coremantle | Offices in Bengaluru & New York',
+  description:
+    'Talk to Coremantle about AI training data. Offices in Bengaluru, India and New York, US, or email contact@coremantle.ai.',
   path: ROUTES.contact,
 });
 

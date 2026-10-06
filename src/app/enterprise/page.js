@@ -17,9 +17,9 @@ import ArchitectureScrub from '@/features/enterprise/ArchitectureScrub';
 import { ENTERPRISE_PROBLEMS, INDUSTRIES } from '@/features/enterprise/content';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - data intelligence for enterprise',
+  title: 'Training-Ready Data for Enterprise AI | Coremantle',
   description:
-    'Coremantle provides training-ready data built for higher accuracy, fewer wasted cycles, and production-grade AI for your enterprise.',
+    'Training-ready speech and language data for enterprise AI: higher accuracy, fewer wasted training cycles and production-grade models across industries.',
   path: ROUTES.enterprise,
 });
 

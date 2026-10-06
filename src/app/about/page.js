@@ -11,9 +11,9 @@ import { pageMetadata } from '@/config/metadata';
 import { ROUTES, mailto } from '@/config/site';
 
 export const metadata = pageMetadata({
-  title: 'Coremantle - About us',
+  title: 'About Coremantle | Data for the Next Billion AI Users',
   description:
-    "Building the data layer for a world AI still doesn't understand. Coremantle closes the representation gap with high-quality, representative data infrastructure across languages, cultures and contexts.",
+    "Coremantle closes AI's representation gap with high-quality speech and language data that reflects the world's languages, cultures and contexts.",
   path: ROUTES.about,
 });
 

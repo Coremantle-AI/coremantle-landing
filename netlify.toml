@@ -31,6 +31,12 @@
     Content-Type = "text/javascript; charset=utf-8"
     Cache-Control = "public, max-age=3600, must-revalidate"
 
+# Scene documents are iframe content, not pages: renderable, never indexed.
+[[headers]]
+  for = "/folds/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 [[headers]]
   for = "/*"
   [headers.values]
