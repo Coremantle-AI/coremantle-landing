@@ -8,6 +8,7 @@ import CtaSection from '@/components/sections/CtaSection';
 import Hero from '@/components/sections/Hero';
 import { MetricBand, Pillars } from '@/components/sections/QualityProof';
 import SectionIntro from '@/components/sections/SectionIntro';
+import TrustedBySection from '@/components/sections/TrustedBySection';
 import TeamSection from '@/components/team/TeamSection';
 import ActionRow from '@/components/ui/ActionRow';
 import Button from '@/components/ui/Button';
@@ -56,6 +57,7 @@ export default function HomePage() {
           <Button href="#team">Meet the team</Button>
         </ActionRow>
       </Hero>
+
       <section aria-label="Raw audio in, ground truth out">
         <FoldTrack scene="Bidtech Voice.dc.html" label="Raw audio in, ground truth out" seamIn="1.02" />
       </section>
@@ -227,6 +229,8 @@ export default function HomePage() {
           { label: 'Talk to us', href: TALK_TO_US, contactForm: true },
         ]}
       />
+
+      <TrustedBySection />
     </PageShell>
   );
 }
