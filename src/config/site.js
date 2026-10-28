@@ -30,9 +30,9 @@ export const OG_IMAGE = {
   alt: 'Coremantle',
 };
 
-// Inline SVG favicon: the lavender core on the warm-black tile.
-export const FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0d0b'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%238b93e8'/%3E%3C/svg%3E";
+// Coremantle icon mark on the dark tile. Relative: resolved against
+// `metadataBase` (SITE_URL) in app/layout.js, same as OG_IMAGE.
+export const FAVICON = '/favicon.svg';
 
 export const FONTS_STYLESHEET =
   'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap';
