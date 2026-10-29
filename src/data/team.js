@@ -9,7 +9,7 @@ export const TEAM = [
     role: 'Founder & CEO',
     linkedin: 'https://www.linkedin.com/in/arvind-pani-0a62532/',
     bio: [
-      'Arvind Pani is the Founder & CEO of Coremantle. He previously co-founded Reverie Language Technologies, which was acquired by Jio in 2019. For over 16 years, he worked on making digital experiences more inclusive across Indian languages.',
+      'Arvind Pani is the Founder & CEO of Coremantle. He previously co-founded Reverie Language Technologies, acquired in 2019. For over 16 years, he worked on making digital experiences more inclusive across Indian languages.',
       'At Coremantle, he is continuing that mission by building the data infrastructure needed for AI to work across underrepresented languages.',
     ],
   },
@@ -20,7 +20,7 @@ export const TEAM = [
     role: 'Co-founder & CTO',
     linkedin: 'https://www.linkedin.com/in/vivekanand-pani/',
     bio: [
-      'Vivekananda Pani is the Co-founder and CTO of Coremantle and a veteran of Indian language technology. He began his career at C-DAC, where he worked on Indian language technologies before co-founding Reverie Language Technologies, acquired by Jio in 2019.',
+      'Vivekananda Pani is the Co-founder and CTO of Coremantle and a veteran of Indian language technology. He began his career at C-DAC, where he worked on Indian language technologies before co-founding Reverie Language Technologies, acquired in 2019.',
       'He spent 16 years at Reverie building technology that brought Indian languages to digital devices and platforms. At Coremantle, he is now focused on building the data infrastructure AI needs to understand India.',
     ],
   },

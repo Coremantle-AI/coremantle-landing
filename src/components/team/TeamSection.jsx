@@ -33,7 +33,7 @@ export default function TeamSection({ surface = false }) {
               At Reverie, they saw the problem firsthand: <strong>poor data meant higher errors, wasted compute, weaker models.</strong>
             </p>
             <p>
-              After Reverie&rsquo;s acquisition by Reliance Jio, they came back to solve it at the source.{' '}
+              After Reverie&rsquo;s acquisition, they came back to solve it at the source.{' '}
               <strong>Coremantle is that missing layer.</strong>
             </p>
             <Button href={mailto('Coremantle sample data')} variant="primary" contactForm>
